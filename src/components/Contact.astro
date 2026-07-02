@@ -1,0 +1,363 @@
+---
+// Contact.astro - open comms / contact section + footer
+// Edit contactLinks to update your actual social/contact URLs
+const contactLinks = [
+  {
+    icon: "𝕏",
+    label: "X",
+    value: "x.com/JynalisCyber",
+    href: "https://x.com/JynalisCyber",
+  },
+  {
+    icon: "💼",
+    label: "LINKEDIN",
+    value: "linkedin.com/in/jynalis-diaz",
+    href: "https://www.linkedin.com/in/jynalis-diaz",
+  },
+  {
+    icon: "⚙",
+    label: "GITHUB",
+    value: "github.com/JynalisDiaz",
+    href: "https://github.com/JynalisDiaz",
+  },
+  {
+    icon: "📄",
+    label: "RESUME",
+    value: "Jynalis_Diaz_Resume.pdf",
+    href: "/Jynalis_Diaz_Resume.pdf",
+  },
+];
+---
+
+<section id="contact" class="section">
+  <div class="section-inner">
+    <div class="section-header fade-up">
+      <div class="section-number">05</div>
+      <div>
+        <div class="section-eyebrow">// OPEN COMMS</div>
+        <h2 class="section-title" data-i18n="contact_title">CONTACT</h2>
+      </div>
+    </div>
+
+    <div class="contact-layout fade-up">
+
+      <!-- Form terminal -->
+      <div class="terminal-card contact-terminal">
+        <div class="terminal-bar">
+          <span class="t-dot red"></span>
+          <span class="t-dot amber"></span>
+          <span class="t-dot green"></span>
+          <span class="t-title">send_message.sh</span>
+        </div>
+        <div class="form-body">
+          <div class="form-field">
+            <label class="form-label">
+              <span class="form-prompt">$</span>
+              <span data-i18n="form_name">NAME</span>
+            </label>
+            <input
+              type="text"
+              id="contact-name"
+              class="form-input"
+              placeholder="enter your callsign..."
+              autocomplete="name"
+            />
+          </div>
+          <div class="form-field">
+            <label class="form-label">
+              <span class="form-prompt">$</span>
+              <span data-i18n="form_email">EMAIL</span>
+            </label>
+            <input
+              type="email"
+              id="contact-email"
+              class="form-input"
+              placeholder="your@email.com"
+              autocomplete="email"
+            />
+          </div>
+          <div class="form-field">
+            <label class="form-label">
+              <span class="form-prompt">$</span>
+              <span data-i18n="form_message">MESSAGE</span>
+            </label>
+            <textarea
+              id="contact-message"
+              class="form-input form-textarea"
+              placeholder="transmit your message..."
+              rows="5"
+            ></textarea>
+          </div>
+          <button class="btn-primary form-submit" id="form-submit" data-i18n="form_submit">
+            TRANSMIT MESSAGE →
+          </button>
+          <div id="form-response" class="form-response" style="display:none" role="alert"></div>
+        </div>
+      </div>
+
+      <!-- Direct channels -->
+      <div class="contact-right">
+        <div class="channels-label" data-i18n="contact_channels">// DIRECT CHANNELS</div>
+        <div class="channels-list">
+          {contactLinks.map(link => (
+            <a href={link.href} target="_blank" rel="noopener noreferrer" class="channel-row">
+              <span class="channel-icon">{link.icon}</span>
+              <div class="channel-info">
+                <span class="channel-label">{link.label}</span>
+                <span class="channel-val">{link.value}</span>
+              </div>
+              <span class="channel-arrow">→</span>
+            </a>
+          ))}
+        </div>
+
+        <!-- Security note -->
+        <div class="security-note">
+          <span class="sec-icon">🔒</span>
+          <span data-i18n="security_note">This site uses HTTPS and no tracking cookies.</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <span class="footer-copy">JYNALIS DIAZ // <span id="footer-year"></span></span>
+    <span class="footer-version">v2.0.0</span>
+  </div>
+</footer>
+
+
+<style>
+  /* Contact layout */
+  .contact-layout {
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    gap: 32px;
+    align-items: start;
+  }
+
+  /* Form */
+  .form-body { padding: 24px; }
+
+  .form-field { margin-bottom: 20px; }
+
+  .form-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+  }
+
+  .form-prompt { color: var(--violet); }
+
+  .form-input {
+    width: 100%;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 13px;
+    padding: 12px 16px;
+    outline: none;
+    transition: border-color var(--transition), box-shadow var(--transition);
+  }
+
+  .form-input::placeholder { color: var(--text-muted); }
+
+  .form-input:focus {
+    border-color: var(--violet);
+    box-shadow: 0 0 0 3px var(--violet-glow);
+  }
+
+  .form-textarea { resize: vertical; min-height: 120px; }
+
+  .form-submit { width: 100%; justify-content: center; margin-top: 4px; }
+
+  .form-response {
+    margin-top: 12px;
+    padding: 12px 16px;
+    border-radius: var(--radius);
+    font-family: var(--mono);
+    font-size: 12px;
+  }
+
+  .form-response.success {
+    background: rgba(61,220,151,0.08);
+    border: 1px solid rgba(61,220,151,0.3);
+    color: var(--green);
+  }
+
+  .form-response.error {
+    background: rgba(255,107,107,0.08);
+    border: 1px solid rgba(255,107,107,0.3);
+    color: var(--coral);
+  }
+
+  /* Right side */
+  .contact-right {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .channels-label {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--violet);
+    letter-spacing: 2px;
+  }
+
+  .channels-list { display: flex; flex-direction: column; gap: 8px; }
+
+  .channel-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 16px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    transition: all var(--transition);
+    cursor: pointer;
+  }
+
+  .channel-row:hover {
+    border-color: rgba(108,99,255,0.4);
+    background: var(--violet-glow);
+    transform: translateX(4px);
+  }
+
+  .channel-icon { font-size: 18px; }
+
+  .channel-info {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  .channel-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+    margin-bottom: 2px;
+  }
+
+  .channel-val {
+    font-size: 13px;
+    color: var(--text-dim);
+  }
+
+  .channel-arrow {
+    color: var(--text-muted);
+    font-size: 14px;
+    transition: color var(--transition);
+  }
+
+  .security-note {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--text-muted);
+    padding: 10px 14px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+
+  /* Footer */
+  .site-footer {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    padding: 24px 40px;
+  }
+
+  .footer-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .footer-copy,
+  .footer-version {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+
+  .footer-sig {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--violet);
+    opacity: 0.6;
+  }
+
+</style>
+
+<script>
+  // Footer year
+  const yearEl = document.getElementById('footer-year');
+  if (yearEl) yearEl.textContent = new Date().getFullYear().toString();
+
+  // Contact form uses Netlify Forms when deployed on Netlify.
+  const submitBtn = document.getElementById('form-submit') as HTMLButtonElement;
+  const responseEl = document.getElementById('form-response') as HTMLElement;
+
+  if (submitBtn) {
+    submitBtn.addEventListener('click', async () => {
+      const name    = (document.getElementById('contact-name') as HTMLInputElement)?.value?.trim();
+      const email   = (document.getElementById('contact-email') as HTMLInputElement)?.value?.trim();
+      const message = (document.getElementById('contact-message') as HTMLTextAreaElement)?.value?.trim();
+
+      if (!name || !email || !message) {
+        responseEl.style.display = 'block';
+        responseEl.className = 'form-response error';
+        responseEl.textContent = '✗ All fields required before transmitting.';
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'TRANSMITTING...';
+
+      // Netlify Forms submission
+      try {
+        const formData = new FormData();
+        formData.append('form-name', 'contact');
+        formData.append('name', name);
+        formData.append('email', email);
+        formData.append('message', message);
+
+        await fetch('/', { method: 'POST', body: formData });
+
+        responseEl.style.display = 'block';
+        responseEl.className = 'form-response success';
+        responseEl.textContent = '✓ Message transmitted. I will respond within 24 hours.';
+        (document.getElementById('contact-name') as HTMLInputElement).value = '';
+        (document.getElementById('contact-email') as HTMLInputElement).value = '';
+        (document.getElementById('contact-message') as HTMLTextAreaElement).value = '';
+      } catch {
+        responseEl.style.display = 'block';
+        responseEl.className = 'form-response error';
+        responseEl.textContent = '✗ Transmission failed. Try emailing directly.';
+      }
+
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'TRANSMIT MESSAGE →';
+    });
+  }
+
+</script>

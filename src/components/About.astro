@@ -1,0 +1,199 @@
+---
+// About.astro - whoami section
+// Edit the terminalLines array to change what types out in the terminal
+// Edit the cards array to change the profile cards
+const terminalLines = [
+  { prompt: "$", cmd: "whoami", delay: 0 },
+  { output: "jynalis_diaz :: aspiring-soc-analyst", delay: 600 },
+  { prompt: "$", cmd: "cat origin_story.txt", delay: 1200 },
+  { output: "Started with taking a risk in doing cybersecurity.", delay: 1800 },
+  { output: "Ended up becoming passionate about SOC work.", delay: 2400 },
+  { prompt: "$", cmd: "cat current_mission.txt", delay: 3200 },
+  { output: "Building SOC experience, documenting technical work, and shipping real projects.", delay: 3800 },
+  { output: "Based in New York. Available for junior SOC and blue team roles.", delay: 4400 },
+  { blink: true, delay: 5000 },
+];
+
+const cards = [
+  {
+    icon: "🛡",
+    title: "THE DEFENDER",
+    titleKey: "about_card2_title",
+    textKey: "about_card2_text",
+    text: "I am drawn to SOC work because it combines investigation, documentation, and careful pattern recognition under pressure.",
+    accent: "violet",
+  },
+  {
+    icon: "📡",
+    title: "THE BUILDER",
+    titleKey: "about_card3_title",
+    textKey: "about_card3_text",
+    text: "I build and document technical projects that connect security concepts to practical tools, analysis, and clearer workflows.",
+    accent: "green",
+  },
+  {
+    icon: "📋",
+    title: "THE DOCUMENTOR",
+    titleKey: "about_card4_title",
+    textKey: "about_card4_text",
+    text: "My IT support and library roles taught me to translate technical issues into clear steps that help people solve problems.",
+    accent: "coral",
+  },
+];
+---
+
+<section id="whoami" class="section">
+  <div class="section-inner">
+    <div class="section-header fade-up">
+      <div class="section-number">01</div>
+      <div>
+        <div class="section-eyebrow">// OPERATOR FILE</div>
+        <h2 class="section-title" data-i18n="about_title">WHOAMI</h2>
+      </div>
+    </div>
+
+    <div class="about-layout">
+
+      <!-- Terminal -->
+      <div class="terminal-card about-terminal fade-up" id="about-terminal">
+        <div class="terminal-bar">
+          <span class="t-dot red"></span>
+          <span class="t-dot amber"></span>
+          <span class="t-dot green"></span>
+          <span class="t-title">operator_profile.sh</span>
+        </div>
+        <div class="terminal-body" id="terminal-body">
+          <!-- Lines typed in by JS -->
+        </div>
+      </div>
+
+      <!-- Cards -->
+      <div class="about-cards">
+        {cards.map(card => (
+          <div class={`glow-card about-card accent-${card.accent} fade-up`}>
+            <div class="card-icon">{card.icon}</div>
+            <div class="card-title" data-i18n={card.titleKey}>{card.title}</div>
+            <div class="card-text" data-i18n={card.textKey}>{card.text}</div>
+          </div>
+        ))}
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<style>
+  .about-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    align-items: start;
+  }
+
+  /* Terminal */
+  .about-terminal { min-height: 320px; }
+
+  .terminal-body {
+    padding: 20px;
+    font-family: var(--mono);
+    font-size: 13px;
+    line-height: 1.9;
+    min-height: 280px;
+  }
+
+  .t-line { display: flex; gap: 8px; align-items: baseline; }
+
+  .t-prompt { color: var(--violet); }
+  .t-cmd    { color: var(--green); }
+  .t-output { color: var(--text-dim); padding-left: 16px; }
+  .t-cursor { display: inline-block; animation: blink 0.8s infinite; color: var(--violet); }
+
+  /* Cards */
+  .about-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .about-card {
+    position: relative;
+    cursor: default;
+  }
+
+  .about-card.accent-coral  { --card-accent: var(--coral); }
+  .about-card.accent-violet { --card-accent: var(--violet); }
+  .about-card.accent-green  { --card-accent: var(--green); }
+
+  .about-card::after {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: var(--card-accent, var(--violet));
+    border-radius: 3px 0 0 3px;
+    opacity: 0;
+    transition: opacity var(--transition);
+  }
+
+  .about-card:hover::after { opacity: 1; }
+
+  .card-icon  { font-size: 24px; margin-bottom: 10px; }
+
+  .card-title {
+    font-family: var(--display);
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+  }
+
+  .card-text {
+    font-size: 13px;
+    color: var(--text-dim);
+    line-height: 1.7;
+  }
+
+  @media (max-width: 900px) {
+    .about-layout { grid-template-columns: 1fr; }
+  }
+</style>
+
+<script define:vars={{ terminalLines }}>
+  // Animate terminal lines on scroll into view
+  const body = document.getElementById('terminal-body');
+  let started = false;
+
+  function startTerminal() {
+    if (started || !body) return;
+    started = true;
+
+    terminalLines.forEach(line => {
+      setTimeout(() => {
+        const el = document.createElement('div');
+
+        if (line.prompt && line.cmd) {
+          el.className = 't-line';
+          el.innerHTML = `<span class="t-prompt">${line.prompt}</span><span class="t-cmd">${line.cmd}</span>`;
+        } else if (line.output) {
+          el.className = 't-line';
+          el.innerHTML = `<span class="t-output">${line.output}</span>`;
+        } else if (line.blink) {
+          el.className = 't-line';
+          el.innerHTML = `<span class="t-prompt">$</span><span class="t-cursor">█</span>`;
+        }
+
+        body.appendChild(el);
+        body.scrollTop = body.scrollHeight;
+      }, line.delay);
+    });
+  }
+
+  // Trigger on scroll intersection
+  const observer = new IntersectionObserver(entries => {
+    if (entries[0].isIntersecting) startTerminal();
+  }, { threshold: 0.3 });
+
+  const terminal = document.getElementById('about-terminal');
+  if (terminal) observer.observe(terminal);
+</script>

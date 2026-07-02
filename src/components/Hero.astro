@@ -1,0 +1,445 @@
+---
+// Hero.astro - landing section
+// Edit heroRoles to change the typewriter cycling text
+// Edit stats to change the HUD panel on the right
+const heroRoles = [
+  "SOC Analyst",
+  "Cybersecurity Graduate",
+  "Network Security",
+  "Incident Responder",
+];
+---
+
+<section id="hero">
+
+  <!-- Animated background grid -->
+  <div class="hero-grid" aria-hidden="true"></div>
+
+  <!-- Floating particles -->
+  <div class="hero-particles" id="hero-particles" aria-hidden="true"></div>
+
+  <div class="hero-inner">
+
+    <!-- Main content -->
+    <div class="hero-content">
+      <div class="hero-eyebrow" data-i18n="hero_eyebrow">
+        <span class="eyebrow-slash">//</span> OPERATOR PROFILE LOADED
+      </div>
+
+      <h1 class="hero-name">
+        JYNALIS<br />
+        <span class="hero-name-accent">DIAZ</span>
+      </h1>
+
+      <div class="hero-role">
+        <span class="role-prefix" data-i18n="hero_role_prefix">&gt; ROLE: </span>
+        <span class="role-text" id="hero-role-text"></span>
+        <span class="role-cursor">█</span>
+      </div>
+
+      <p class="hero-bio" data-i18n="hero_bio">
+        New York based. Blue team focused. I got into security through an SQL class
+        that changed everything, and I haven't stopped building since.
+      </p>
+
+      <div class="hero-tags">
+        <span class="hero-tag">🛡 THREAT DETECTION</span>
+        <span class="hero-tag">🔍 SOC L1/L2</span>
+        <span class="hero-tag">⚡ INCIDENT RESPONSE</span>
+      </div>
+
+      <div class="hero-actions">
+        <a href="#whoami" class="btn-primary" data-i18n="hero_cta_primary">ENTER OPERATOR FILE</a>
+        <a href="/Jynalis_Diaz_Resume.pdf" target="_blank" rel="noopener" class="btn-ghost" data-i18n="hero_cta_resume">VIEW RESUME ↗</a>
+      </div>
+    </div>
+
+    <!-- HUD side panel -->
+    <div class="hero-hud" aria-label="Status panel">
+      <div class="hud-header">
+        <span class="hud-label-top">// SYSTEM STATUS</span>
+      </div>
+      <div class="hud-stats">
+        <div class="hud-row">
+          <span class="hud-key" data-i18n="hud_status">STATUS</span>
+          <span class="hud-val green" data-i18n="hud_available">AVAILABLE</span>
+        </div>
+        <div class="hud-row">
+          <span class="hud-key" data-i18n="hud_clearance">CLEARANCE</span>
+          <span class="hud-val violet">ACTIVE</span>
+        </div>
+        <div class="hud-row">
+          <span class="hud-key" data-i18n="hud_location">LOCATION</span>
+          <span class="hud-val">NEW YORK, NY</span>
+        </div>
+        <div class="hud-row">
+          <span class="hud-key" data-i18n="hud_team">TEAM</span>
+          <span class="hud-val">BLUE TEAM</span>
+        </div>
+        <div class="hud-row">
+          <span class="hud-key" data-i18n="hud_focus">FOCUS</span>
+          <span class="hud-val">SOC L1/L2</span>
+        </div>
+      </div>
+
+      <div class="hud-divider"></div>
+
+      <div class="hud-threat">
+        <div class="hud-threat-label" data-i18n="hud_threat">THREAT AWARENESS</div>
+        <div class="hud-bars">
+          <div class="hud-bar filled"></div>
+          <div class="hud-bar filled"></div>
+          <div class="hud-bar filled"></div>
+          <div class="hud-bar filled"></div>
+          <div class="hud-bar"></div>
+        </div>
+      </div>
+
+      <div class="hud-divider"></div>
+
+      <div class="hud-clock-row">
+        <span class="hud-key">LOCAL TIME</span>
+        <span class="hud-val" id="hud-clock">--:--:--</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Scroll hint -->
+  <div class="scroll-hint" aria-label="Scroll down">
+    <span data-i18n="scroll_hint">SCROLL TO DEPLOY</span>
+    <div class="scroll-arrow">↓</div>
+  </div>
+
+</section>
+
+<style>
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    padding: 100px 40px 60px;
+  }
+
+  /* Background grid */
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(108,99,255,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(108,99,255,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
+  }
+
+  /* Radial glow behind content */
+  #hero::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 800px;
+    height: 600px;
+    background: radial-gradient(ellipse, rgba(108,99,255,0.1) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-inner {
+    max-width: 1100px;
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 60px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Content */
+  .hero-content { flex: 1; }
+
+  .hero-eyebrow {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--violet);
+    letter-spacing: 3px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .eyebrow-slash { color: var(--coral); }
+
+  .hero-name {
+    font-family: var(--display);
+    font-size: clamp(52px, 8vw, 96px);
+    font-weight: 700;
+    line-height: 0.9;
+    letter-spacing: -1px;
+    color: var(--text);
+    margin-bottom: 20px;
+  }
+
+  .hero-name-accent {
+    color: transparent;
+    -webkit-text-stroke: 2px var(--violet);
+  }
+
+  .hero-role {
+    font-family: var(--mono);
+    font-size: clamp(14px, 2vw, 18px);
+    color: var(--text-dim);
+    margin-bottom: 20px;
+    min-height: 28px;
+  }
+
+  .role-prefix  { color: var(--coral); }
+  .role-text    { color: var(--text); }
+  .role-cursor  { animation: blink 0.8s infinite; color: var(--violet); }
+
+  .hero-bio {
+    font-size: 16px;
+    color: var(--text-dim);
+    line-height: 1.7;
+    max-width: 480px;
+    margin-bottom: 28px;
+  }
+
+  .hero-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 32px;
+  }
+
+  .hero-tag {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-dim);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 5px 12px;
+    transition: all var(--transition);
+  }
+
+  .hero-tag:hover {
+    border-color: var(--violet);
+    color: var(--violet);
+    background: var(--violet-glow);
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  /* HUD panel */
+  .hero-hud {
+    width: 240px;
+    flex-shrink: 0;
+    background: rgba(14, 22, 35, 0.8);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 0 40px rgba(108,99,255,0.08);
+  }
+
+  .hud-header {
+    margin-bottom: 16px;
+  }
+
+  .hud-label-top {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--violet);
+    letter-spacing: 1px;
+  }
+
+  .hud-stats { display: flex; flex-direction: column; gap: 10px; }
+
+  .hud-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .hud-key {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+  }
+
+  .hud-val {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-dim);
+  }
+
+  .hud-val.green  { color: var(--green); }
+  .hud-val.violet { color: var(--violet); }
+
+  .hud-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 16px 0;
+  }
+
+  .hud-threat-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+  }
+
+  .hud-bars {
+    display: flex;
+    gap: 4px;
+  }
+
+  .hud-bar {
+    flex: 1;
+    height: 6px;
+    border-radius: 2px;
+    background: var(--border);
+    transition: background 0.3s;
+  }
+
+  .hud-bar.filled { background: var(--violet); }
+
+  .hud-clock-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  /* Scroll hint */
+  .scroll-hint {
+    position: absolute;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text-muted);
+    letter-spacing: 2px;
+    z-index: 1;
+  }
+
+  .scroll-arrow {
+    animation: bounce 2s infinite;
+    color: var(--violet);
+  }
+
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50%       { transform: translateY(6px); }
+  }
+
+  /* Particles (JS-generated) */
+  .hero-particles {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  @media (max-width: 900px) {
+    #hero { padding: 100px 20px 80px; }
+    .hero-inner { flex-direction: column; gap: 40px; }
+    .hero-hud { width: 100%; max-width: 360px; }
+    .hero-name { font-size: clamp(44px, 12vw, 72px); }
+  }
+</style>
+
+<script define:vars={{ heroRoles }}>
+  // Typewriter effect for role cycling
+  let roleIndex = 0;
+  let charIndex = 0;
+  let deleting = false;
+  const el = document.getElementById('hero-role-text');
+
+  function typeRole() {
+    if (!el) return;
+    const current = heroRoles[roleIndex];
+    if (deleting) {
+      el.textContent = current.slice(0, charIndex--);
+      if (charIndex < 0) {
+        deleting = false;
+        roleIndex = (roleIndex + 1) % heroRoles.length;
+        setTimeout(typeRole, 500);
+        return;
+      }
+    } else {
+      el.textContent = current.slice(0, charIndex++);
+      if (charIndex > current.length) {
+        deleting = true;
+        setTimeout(typeRole, 2000);
+        return;
+      }
+    }
+    setTimeout(typeRole, deleting ? 60 : 100);
+  }
+
+  typeRole();
+
+  // HUD clock
+  function updateClock() {
+    const el = document.getElementById('hud-clock');
+    if (el) {
+      const now = new Date();
+      el.textContent = now.toLocaleTimeString('en-US', { hour12: false });
+    }
+  }
+  updateClock();
+  setInterval(updateClock, 1000);
+
+  // Floating particles
+  const container = document.getElementById('hero-particles');
+  if (container) {
+    for (let i = 0; i < 30; i++) {
+      const p = document.createElement('div');
+      const size = Math.random() * 3 + 1;
+      const x = Math.random() * 100;
+      const y = Math.random() * 100;
+      const duration = Math.random() * 8 + 6;
+      const delay = Math.random() * 5;
+      p.style.cssText = `
+        position:absolute;
+        width:${size}px;height:${size}px;
+        left:${x}%;top:${y}%;
+        border-radius:50%;
+        background:${Math.random() > 0.5 ? 'rgba(108,99,255,0.4)' : 'rgba(255,107,107,0.3)'};
+        animation:float ${duration}s ${delay}s infinite ease-in-out;
+        pointer-events:none;
+      `;
+      container.appendChild(p);
+    }
+
+    // Add float keyframe dynamically
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes float {
+        0%,100% { transform: translateY(0px) translateX(0px); opacity: 0.4; }
+        33%      { transform: translateY(-20px) translateX(10px); opacity: 0.8; }
+        66%      { transform: translateY(10px) translateX(-8px); opacity: 0.3; }
+      }
+    `;
+    document.head.appendChild(style);
+  }
+</script>

@@ -1,0 +1,162 @@
+---
+// Skills.astro - loadout / tools section
+// Edit tools array to add/remove tools
+const tools = [
+  { icon: "🛡", name: "Network Security", category: "SECURITY"   },
+  { icon: "📊", name: "Risk Analysis",    category: "ANALYSIS"   },
+  { icon: "🔎", name: "Vulnerability Assessment", category: "ASSESSMENT" },
+  { icon: "🚨", name: "Incident Investigation", category: "SOC"  },
+  { icon: "📡", name: "Security Monitoring", category: "SOC"     },
+  { icon: "🐍", name: "Python",          category: "SCRIPTING"   },
+  { icon: "🛢", name: "SQL",             category: "DATA"        },
+  { icon: "💻", name: "Windows / Linux", category: "OS"          },
+  { icon: "⚙", name: "PowerShell / Bash", category: "SHELL"      },
+  { icon: "🧰", name: "Troubleshooting", category: "IT SUPPORT"  },
+  { icon: "🖥", name: "VirtualBox",      category: "LABS"        },
+  { icon: "🌐", name: "Switches, Routers, Firewalls", category: "INFRASTRUCTURE" },
+];
+
+const skillNotes = [
+  "Hands-on IT support experience with ticketing, troubleshooting, and client-facing technical help.",
+  "Cybersecurity foundation in network security, risk analysis, vulnerability assessment, and incident investigation.",
+  "Project experience using Python, Flask, SQLite, TF-IDF, Logistic Regression, and rule-based fraud indicators.",
+];
+---
+
+<section id="skills" class="section section-alt">
+  <div class="section-inner">
+    <div class="section-header fade-up">
+      <div class="section-number">02</div>
+      <div>
+        <div class="section-eyebrow">// LOADOUT</div>
+        <h2 class="section-title" data-i18n="skills_title">SKILLS & TOOLS</h2>
+      </div>
+    </div>
+
+    <!-- Tool cards -->
+    <div class="tools-grid fade-up">
+      {tools.map(tool => (
+        <div class="tool-card">
+          <div class="tool-icon">{tool.icon}</div>
+          <div class="tool-name">{tool.name}</div>
+          <div class="tool-category">{tool.category}</div>
+        </div>
+      ))}
+    </div>
+
+    <!-- Resume-aligned notes -->
+    <div class="skills-notes fade-up">
+      <div class="notes-label">// RESUME-ALIGNED FOCUS</div>
+      <div class="notes-list">
+        {skillNotes.map(note => (
+          <div class="note-row">
+            <span class="note-marker">▸</span>
+            <span>{note}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<style>
+  /* Tool grid */
+  .tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 12px;
+    margin-bottom: 56px;
+  }
+
+  .tool-card {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 16px;
+    text-align: center;
+    cursor: default;
+    transition: all var(--transition);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .tool-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--violet), var(--coral));
+    transform: scaleX(0);
+    transition: transform var(--transition);
+  }
+
+  .tool-card:hover {
+    border-color: rgba(108,99,255,0.4);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px var(--violet-glow);
+  }
+
+  .tool-card:hover::after { transform: scaleX(1); }
+
+  .tool-icon {
+    font-size: 26px;
+    margin-bottom: 8px;
+  }
+
+  .tool-name {
+    font-family: var(--display);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+
+  .tool-category {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+  }
+
+  /* Resume-aligned notes */
+  .skills-notes {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px 32px;
+  }
+
+  .notes-label {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--violet);
+    letter-spacing: 2px;
+    margin-bottom: 24px;
+  }
+
+  .notes-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .note-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    color: var(--text-dim);
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  .note-marker {
+    color: var(--green);
+    font-family: var(--mono);
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 640px) {
+    .tools-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+</style>

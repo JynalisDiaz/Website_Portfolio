@@ -1,0 +1,197 @@
+---
+// Experience.astro - mission history / timeline
+// Edit the timeline array to add/change entries
+const timeline = [
+  {
+    year: "2023",
+    title: "Started Exploring Cybersecurity",
+    org: "College",
+    type: "FOUNDATION",
+    typeColor: "violet",
+    desc: "Came into college still figuring out what I wanted to major in and started looking into cybersecurity as a possible path.",
+    tags: ["Cybersecurity", "Career Exploration"],
+  },
+  {
+    year: "2024",
+    title: "IT Support Coordinator Internship",
+    org: "Mount Saint Mary College IT Department",
+    type: "INTERNSHIP",
+    typeColor: "green",
+    desc: "Started getting hands-on experience with troubleshooting, ticketing services, and client-facing support. This helped me realize how passionate I was about the IT field.",
+    tags: ["Troubleshooting", "Ticketing", "Client Support", "IT Infrastructure"],
+  },
+  {
+    year: "2025",
+    title: "SQL, Library Support, and SOC Direction",
+    org: "Mount Saint Mary College",
+    type: "GROWTH",
+    typeColor: "amber",
+    desc: "Took a SQL class and finally knew which branch of cybersecurity I wanted to pursue. While working as a student library assistant, I helped patrons with materials and IT issues, created guides, and built a better understanding of how to solve technical problems clearly.",
+    tags: ["SQL", "Technical Support", "Documentation", "Problem Solving"],
+  },
+  {
+    year: "Goal",
+    title: "Junior SOC Analyst",
+    org: "Target Role",
+    type: "GOAL",
+    typeColor: "coral",
+    desc: "Targeting a junior SOC analyst role where I can keep building hands-on experience in monitoring, investigation, documentation, and response.",
+    tags: ["SOC", "Security Monitoring", "Incident Investigation", "Documentation"],
+  },
+];
+---
+
+<section id="experience" class="section section-alt">
+  <div class="section-inner">
+    <div class="section-header fade-up">
+      <div class="section-number">04</div>
+      <div>
+        <div class="section-eyebrow">// MISSION HISTORY</div>
+        <h2 class="section-title" data-i18n="exp_title">TIMELINE</h2>
+      </div>
+    </div>
+
+    <div class="timeline">
+      {timeline.map((entry, i) => (
+        <div class="timeline-item fade-up">
+          <div class="timeline-line">
+            <div class={`timeline-dot dot-${entry.typeColor}`}></div>
+            {i < timeline.length - 1 && <div class="timeline-connector"></div>}
+          </div>
+          <div class="timeline-content">
+            <div class="timeline-header">
+              <span class="timeline-year">{entry.year}</span>
+              <span class={`timeline-type type-${entry.typeColor}`}>{entry.type}</span>
+            </div>
+            <h3 class="timeline-title">{entry.title}</h3>
+            <div class="timeline-org">{entry.org}</div>
+            <p class="timeline-desc">{entry.desc}</p>
+            <div class="timeline-tags">
+              {entry.tags.map(tag => (
+                <span class="timeline-tag">{tag}</span>
+              ))}
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+
+  </div>
+</section>
+
+<style>
+  .timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .timeline-item {
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    gap: 24px;
+    padding-bottom: 40px;
+  }
+
+  .timeline-item:last-child { padding-bottom: 0; }
+
+  /* Line + dot */
+  .timeline-line {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+  }
+
+  .timeline-dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 2px solid;
+    flex-shrink: 0;
+    margin-top: 4px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .timeline-dot.dot-violet { border-color: var(--violet); background: var(--violet-glow); }
+  .timeline-dot.dot-green  { border-color: var(--green);  background: rgba(61,220,151,0.1); }
+  .timeline-dot.dot-amber  { border-color: var(--amber);  background: rgba(255,179,71,0.1); }
+  .timeline-dot.dot-coral  { border-color: var(--coral);  background: var(--coral-glow); }
+
+  .timeline-connector {
+    flex: 1;
+    width: 2px;
+    background: var(--border);
+    margin-top: 8px;
+  }
+
+  /* Content */
+  .timeline-content { padding-top: 2px; }
+
+  .timeline-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+
+  .timeline-year {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+
+  .timeline-type {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 1px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    border: 1px solid;
+  }
+
+  .timeline-type.type-violet { color: var(--violet); border-color: rgba(108,99,255,0.3); background: var(--violet-glow); }
+  .timeline-type.type-green  { color: var(--green);  border-color: rgba(61,220,151,0.3);  background: rgba(61,220,151,0.08); }
+  .timeline-type.type-amber  { color: var(--amber);  border-color: rgba(255,179,71,0.3);  background: rgba(255,179,71,0.08); }
+  .timeline-type.type-coral  { color: var(--coral);  border-color: rgba(255,107,107,0.3); background: var(--coral-glow); }
+
+  .timeline-title {
+    font-family: var(--display);
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+
+  .timeline-org {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+  }
+
+  .timeline-desc {
+    font-size: 14px;
+    color: var(--text-dim);
+    line-height: 1.7;
+    margin-bottom: 12px;
+    max-width: 640px;
+  }
+
+  .timeline-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .timeline-tag {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text-muted);
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 2px 8px;
+  }
+</style>

@@ -1,0 +1,270 @@
+---
+// Layout.astro - wraps every page
+// Edit the <head> here to change fonts, meta tags, or global scripts
+interface Props {
+  title?: string;
+}
+const { title = "Jynalis Diaz | SOC Analyst" } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en" data-lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Jynalis Diaz, aspiring SOC Analyst based in New York. Blue team, threat detection, incident response." />
+  <meta name="theme-color" content="#6C63FF" />
+  <title>{title}</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- Security headers via meta (full headers set in netlify.toml) -->
+  <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+  <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin" />
+</head>
+<body>
+  <slot />
+  <script src="/scripts/main.js" defer></script>
+</body>
+</html>
+
+<style is:global>
+  /* ── DESIGN TOKENS ───────────────────────────────────────────── */
+  :root {
+    --bg:           #080B14;
+    --surface:      #0E1623;
+    --surface-2:    #121E30;
+    --border:       #1C2D45;
+    --violet:       #6C63FF;
+    --violet-dim:   #4F48CC;
+    --violet-glow:  rgba(108, 99, 255, 0.18);
+    --coral:        #FF6B6B;
+    --coral-glow:   rgba(255, 107, 107, 0.15);
+    --green:        #3DDC97;
+    --amber:        #FFB347;
+    --text:         #F0F4FF;
+    --text-dim:     #8896B3;
+    --text-muted:   #4A5568;
+    --mono:         'Share Tech Mono', monospace;
+    --display:      'Rajdhani', sans-serif;
+    --body:         'Inter', sans-serif;
+    --radius:       8px;
+    --transition:   0.2s ease;
+  }
+
+  /* ── RESET ───────────────────────────────────────────────────── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html {
+    scroll-behavior: smooth;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--body);
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  body { min-height: 100vh; }
+
+  a { color: inherit; text-decoration: none; }
+
+  img { max-width: 100%; display: block; }
+
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--violet-dim); }
+
+  /* ── SELECTION ───────────────────────────────────────────────── */
+  ::selection { background: var(--violet); color: #fff; }
+
+  /* ── SHARED SECTION STYLES ───────────────────────────────────── */
+  .section {
+    padding: 100px 0;
+  }
+
+  .section-alt {
+    background: var(--surface);
+  }
+
+  .section-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 24px;
+    margin-bottom: 56px;
+  }
+
+  .section-number {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--violet);
+    background: var(--violet-glow);
+    border: 1px solid rgba(108,99,255,0.3);
+    border-radius: var(--radius);
+    padding: 6px 10px;
+    margin-top: 4px;
+    flex-shrink: 0;
+  }
+
+  .section-eyebrow {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--violet);
+    letter-spacing: 2px;
+    margin-bottom: 6px;
+  }
+
+  .section-title {
+    font-family: var(--display);
+    font-size: clamp(28px, 4vw, 42px);
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: 1px;
+  }
+
+  /* ── BUTTONS ─────────────────────────────────────────────────── */
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 28px;
+    background: var(--violet);
+    color: #fff;
+    font-family: var(--display);
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    border: none;
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
+  }
+
+  .btn-primary:hover {
+    background: var(--violet-dim);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px var(--violet-glow);
+  }
+
+  .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 28px;
+    background: transparent;
+    color: var(--text);
+    font-family: var(--display);
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: all var(--transition);
+  }
+
+  .btn-ghost:hover {
+    border-color: var(--violet);
+    color: var(--violet);
+    transform: translateY(-2px);
+  }
+
+  /* ── TERMINAL CARD ───────────────────────────────────────────── */
+  .terminal-card {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+
+  .terminal-bar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 16px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .t-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+
+  .t-dot.red    { background: #FF5F57; }
+  .t-dot.amber  { background: #FFBD2E; }
+  .t-dot.green  { background: #28C840; }
+
+  .t-title {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-left: 8px;
+  }
+
+  /* ── GLOW CARD ───────────────────────────────────────────────── */
+  .glow-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    transition: all var(--transition);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .glow-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--violet-glow);
+    opacity: 0;
+    transition: opacity var(--transition);
+  }
+
+  .glow-card:hover {
+    border-color: rgba(108,99,255,0.4);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px var(--violet-glow);
+  }
+
+  .glow-card:hover::before { opacity: 1; }
+
+  /* ── ANIMATIONS ──────────────────────────────────────────────── */
+  @keyframes blink  { 0%,100%{opacity:1} 50%{opacity:0} }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+  @keyframes pulse  { 0%,100%{opacity:1} 50%{opacity:0.4} }
+  @keyframes glow   { 0%,100%{box-shadow:0 0 8px var(--violet)} 50%{box-shadow:0 0 20px var(--violet)} }
+  @keyframes scanline {
+    0%   { transform: translateY(-100%); }
+    100% { transform: translateY(100vh); }
+  }
+
+  .fade-up {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .fade-up.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── RESPONSIVE ──────────────────────────────────────────────── */
+  @media (max-width: 768px) {
+    .section-inner { padding: 0 20px; }
+    .section { padding: 70px 0; }
+  }
+</style>

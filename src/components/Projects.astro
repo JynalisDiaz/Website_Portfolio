@@ -1,0 +1,241 @@
+---
+// Projects.astro - active missions / project cards
+// To add a project: copy a project object and add it to the projects array
+const projects = [
+  {
+    id: "01",
+    status: "DEPLOYED",
+    statusColor: "green",
+    title: "Fraud Job Posting Detection Tool",
+    titleKey: "proj1_title",
+    descKey: "proj1_desc",
+    desc: "A Python-based ML tool that identifies fraudulent job postings using NLP techniques and classification models. Built to protect job seekers from scams, trained on real-world data.",
+    tags: ["Python", "NLP", "Machine Learning", "Scikit-learn", "Flask", "SQLite"],
+    github: "https://github.com/JynalisDiaz/Senior-Capstone-Project-Spring-2026",
+    live: null,
+    highlight: true,
+  },
+  {
+    id: "02",
+    status: "IN PROGRESS",
+    statusColor: "amber",
+    title: "SOC Incident Simulator",
+    titleKey: "proj2_title",
+    descKey: "proj2_desc",
+    desc: "Role-specific SOC training simulator covering 5 industry tracks (Healthcare, Financial, Payments, Energy, Government). Features compliance-graded reporting, AI mentoring, and realistic evidence packs.",
+    tags: ["JavaScript", "Anthropic API", "HIPAA", "PCI-DSS", "NIST"],
+    github: null,
+    live: null,
+    highlight: false,
+  },
+];
+---
+
+<section id="projects" class="section">
+  <div class="section-inner">
+    <div class="section-header fade-up">
+      <div class="section-number">03</div>
+      <div>
+        <div class="section-eyebrow">// ACTIVE MISSIONS</div>
+        <h2 class="section-title" data-i18n="projects_title">PROJECTS</h2>
+      </div>
+    </div>
+
+    <div class="projects-grid">
+      {projects.map(proj => (
+        <div class={`project-card fade-up ${proj.highlight ? 'featured' : ''}`}>
+
+          <!-- Card header -->
+          <div class="proj-header">
+            <div class="proj-id-row">
+              <span class="proj-id">MISSION_{proj.id}</span>
+              <span class={`proj-status status-${proj.statusColor}`}>
+                <span class="status-dot-sm"></span>
+                {proj.status}
+              </span>
+            </div>
+            {proj.highlight && <div class="proj-featured-badge">⭐ FEATURED</div>}
+          </div>
+
+          <!-- Title -->
+          <h3 class="proj-title" data-i18n={proj.titleKey}>{proj.title}</h3>
+
+          <!-- Description -->
+          <p class="proj-desc" data-i18n={proj.descKey}>{proj.desc}</p>
+
+          <!-- Tags -->
+          <div class="proj-tags">
+            {proj.tags.map(tag => (
+              <span class="proj-tag">{tag}</span>
+            ))}
+          </div>
+
+          <!-- Links -->
+          <div class="proj-links">
+            {proj.github && (
+              <a href={proj.github} target="_blank" rel="noopener" class="proj-link" data-i18n="proj_github">
+                ⚙ GitHub
+              </a>
+            )}
+            {proj.live && (
+              <a href={proj.live} target="_blank" rel="noopener" class="proj-link proj-link-live" data-i18n="proj_live">
+                ↗ Live Demo
+              </a>
+            )}
+            {!proj.github && !proj.live && (
+              <span class="proj-link-coming" data-i18n="proj_coming">Coming soon</span>
+            )}
+          </div>
+
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px;
+  }
+
+  .project-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    transition: all var(--transition);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .project-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--violet), var(--coral));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+  }
+
+  .project-card:hover {
+    border-color: rgba(108,99,255,0.35);
+    transform: translateY(-5px);
+    box-shadow: 0 16px 48px rgba(0,0,0,0.3);
+  }
+
+  .project-card:hover::before { transform: scaleX(1); }
+
+  .project-card.featured {
+    border-color: rgba(108,99,255,0.3);
+    background: linear-gradient(135deg, var(--surface), rgba(108,99,255,0.05));
+  }
+
+  /* Header */
+  .proj-header { display: flex; flex-direction: column; gap: 8px; }
+
+  .proj-id-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .proj-id {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+  }
+
+  .proj-status {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 1px;
+  }
+
+  .proj-status.status-green  { color: var(--green); }
+  .proj-status.status-amber  { color: var(--amber); }
+  .proj-status.status-violet { color: var(--violet); }
+
+  .status-dot-sm {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: currentColor;
+    animation: pulse 2s infinite;
+  }
+
+  .proj-featured-badge {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--amber);
+    letter-spacing: 1px;
+  }
+
+  /* Content */
+  .proj-title {
+    font-family: var(--display);
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.3;
+  }
+
+  .proj-desc {
+    font-size: 14px;
+    color: var(--text-dim);
+    line-height: 1.7;
+    flex: 1;
+  }
+
+  .proj-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .proj-tag {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--violet);
+    background: var(--violet-glow);
+    border: 1px solid rgba(108,99,255,0.2);
+    border-radius: 4px;
+    padding: 3px 8px;
+  }
+
+  .proj-links {
+    display: flex;
+    gap: 12px;
+    margin-top: auto;
+    padding-top: 4px;
+  }
+
+  .proj-link {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text-dim);
+    transition: color var(--transition);
+  }
+
+  .proj-link:hover { color: var(--violet); }
+
+  .proj-link-live { color: var(--green); }
+  .proj-link-live:hover { color: var(--green); opacity: 0.8; }
+
+  .proj-link-coming {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text-muted);
+    font-style: italic;
+  }
+</style>
